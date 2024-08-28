@@ -1,0 +1,125 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Gabriel">
+        <createTable tableName="Usuario">
+            <column name="id_usuario" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Nombre" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Rol" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Contraseña" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="FormaPago">
+            <column name="Id_forma_pago" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Forma_pago" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Factura">
+            <column name="Id_factura" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Fecha" type="DATETIME2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Total" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_usuario" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_forma_pago" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_cliente" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Producto">
+            <column name="Id_producto" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Nombre_producto" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Precio_unitario" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Descripcion" type="varchar(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Existencia" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Orden_compra">
+            <column name="Id_ingreso" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Fecha_ingreso" type="DATETIME2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_producto" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_proveedor" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Cantidad" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Precio" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Venta">
+            <column name="Id_venta" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Id_factura" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_producto" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Cantidad" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Cliente">
+            <column name="Id_cliente" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Nombre" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NIT" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Proveedor">
+            <column name="Id_proveedor" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Nombre" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Direccion" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
