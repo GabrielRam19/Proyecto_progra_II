@@ -6,11 +6,14 @@
 
     <changeSet id="1" author="Gabriel">
         <createTable tableName="Usuario">
-            <column name="id_usuario" type="int">
+            <column name="Id_usuario" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Nombre" type="varchar(100)">
+            <column name="Nombre" type="varchar(150)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="User_Name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="Rol" type="varchar(30)">
                 <constraints nullable="false"/>
@@ -20,7 +23,7 @@
             </column>
         </createTable>
         <createTable tableName="FormaPago">
-            <column name="Id_forma_pago" type="int">
+            <column name="Id_forma_pago" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Forma_pago" type="varchar(50)">
@@ -28,10 +31,13 @@
             </column>
         </createTable>
         <createTable tableName="Factura">
-            <column name="Id_factura" type="int">
+            <column name="Id_factura" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Fecha" type="DATETIME2">
+            <column name="created_at" type="DATETIME2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME2">
                 <constraints nullable="false"/>
             </column>
             <column name="Total" type="DECIMAL(10,2)">
@@ -48,7 +54,7 @@
             </column>
         </createTable>
         <createTable tableName="Producto">
-            <column name="Id_producto" type="int">
+            <column name="Id_producto" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Nombre_producto" type="varchar(50)">
@@ -65,10 +71,13 @@
             </column>
         </createTable>
         <createTable tableName="Orden_compra">
-            <column name="Id_ingreso" type="int">
+            <column name="Id_ingreso" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Fecha_ingreso" type="DATETIME2">
+            <column name="created_at" type="DATETIME2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME2">
                 <constraints nullable="false"/>
             </column>
             <column name="Id_producto" type="int">
@@ -85,7 +94,7 @@
             </column>
         </createTable>
         <createTable tableName="Venta">
-            <column name="Id_venta" type="int">
+            <column name="Id_venta" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Id_factura" type="int">
@@ -99,7 +108,7 @@
             </column>
         </createTable>
         <createTable tableName="Cliente">
-            <column name="Id_cliente" type="int">
+            <column name="Id_cliente" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Nombre" type="varchar(100)">
@@ -110,7 +119,7 @@
             </column>
         </createTable>
         <createTable tableName="Proveedor">
-            <column name="Id_proveedor" type="int">
+            <column name="Id_proveedor" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Nombre" type="varchar(50)">
@@ -120,6 +129,48 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
 
+        <addForeignKeyConstraint
+                baseTableName="Orden_compra"
+                baseColumnNames="Id_proveedor"
+                constraintName="fk_compra_proveedor"
+                referencedTableName="Proveedor"
+                referencedColumnNames="Id_proveedor"/>
+        <addForeignKeyConstraint
+                baseTableName="Orden_compra"
+                baseColumnNames="Id_producto"
+                constraintName="fk_compra_producto"
+                referencedTableName="Producto"
+                referencedColumnNames="Id_producto"/>
+        <addForeignKeyConstraint
+                baseTableName="Venta"
+                baseColumnNames="Id_producto"
+                constraintName="fk_venta_producto"
+                referencedTableName="Producto"
+                referencedColumnNames="Id_producto"/>
+        <addForeignKeyConstraint
+                baseTableName="Venta"
+                baseColumnNames="Id_factura"
+                constraintName="fk_venta_factura"
+                referencedTableName="Factura"
+                referencedColumnNames="Id_factura"/>
+        <addForeignKeyConstraint
+                baseTableName="Factura"
+                baseColumnNames="Id_forma_pago"
+                constraintName="fk_factura_pago"
+                referencedTableName="FormaPago"
+                referencedColumnNames="Id_forma_pago"/>
+        <addForeignKeyConstraint
+                baseTableName="Factura"
+                baseColumnNames="Id_usuario"
+                constraintName="fk_factura_usuario"
+                referencedTableName="Usuario"
+                referencedColumnNames="Id_usuario"/>
+        <addForeignKeyConstraint
+                baseTableName="Factura"
+                baseColumnNames="Id_cliente"
+                constraintName="fk_factura_cliente"
+                referencedTableName="Cliente"
+                referencedColumnNames="Id_cliente"/>
+    </changeSet>
 </databaseChangeLog>
