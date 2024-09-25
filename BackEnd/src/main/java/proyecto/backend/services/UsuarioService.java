@@ -21,12 +21,12 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponseDto> findAllUsers() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> usuarios = usuarioRepository.findByActiveIsTrue();
         return usuarios.stream().map(usuario->modelMapper.map(usuario, UsuarioResponseDto.class)).toList();
     }
 
     public UsuarioResponseDto findUserById(Integer id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        Usuario usuario = usuarioRepository.findByActiveIsTrueAndIdUsuario(id);
         return modelMapper.map(usuario, UsuarioResponseDto.class);
     }
 
@@ -37,7 +37,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDto updateUser(UsuarioRequestDto usuarioDto, Integer id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        Usuario usuario = usuarioRepository.findByActiveIsTrueAndIdUsuario(id);
         modelMapper.map(usuarioDto, usuario);
         assert usuario != null;
         Usuario savedUser = usuarioRepository.save(usuario);
