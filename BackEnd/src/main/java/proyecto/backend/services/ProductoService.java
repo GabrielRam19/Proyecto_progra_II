@@ -28,9 +28,7 @@ public class ProductoService {
     }
 
     public ProductoResponseDto saveProducto(ProductoRequestDto productoRequestDto){
-        System.out.println(productoRequestDto.getNombreProducto()+" "+productoRequestDto.getDescripcion());
         Producto producto = modelMapper.map(productoRequestDto, Producto.class);
-        System.out.println(producto.getNombreProducto()+" "+producto.getDescripcion());
         Producto productoSaved = productoRepository.save(producto);
         return modelMapper.map(productoSaved, ProductoResponseDto.class);
     }

@@ -17,4 +17,6 @@ public class UsuarioRequestDto {
     private String rol;
 
     private String contrasena;
+
+    private Boolean active;
 }

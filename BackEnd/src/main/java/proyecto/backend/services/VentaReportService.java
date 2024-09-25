@@ -3,7 +3,6 @@ package proyecto.backend.services;
 import jakarta.transaction.Transactional;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.fonts.FontExtensionsRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import proyecto.backend.dtos.VentaReporteDto;

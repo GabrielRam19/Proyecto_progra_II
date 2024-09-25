@@ -41,6 +41,6 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        usuarioService.deleteUser(id);
+        usuarioService.softDelete(id);
     }
 }

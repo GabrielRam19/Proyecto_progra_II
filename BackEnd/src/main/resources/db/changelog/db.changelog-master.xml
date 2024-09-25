@@ -21,6 +21,9 @@
             <column name="Contraseña" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_active" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <createTable tableName="FormaPago">
             <column name="Id_forma_pago" type="int" autoIncrement="true">

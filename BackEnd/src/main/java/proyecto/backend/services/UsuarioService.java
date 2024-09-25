@@ -1,5 +1,6 @@
 package proyecto.backend.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import proyecto.backend.dtos.UsuarioRequestDto;
 import proyecto.backend.dtos.UsuarioResponseDto;
 import proyecto.backend.models.Usuario;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import proyecto.backend.repositories.UsuarioRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -42,7 +44,15 @@ public class UsuarioService {
         return modelMapper.map(savedUser, UsuarioResponseDto.class);
     }
 
-    public void deleteUser(Integer id) {
-        usuarioRepository.deleteById(id);
+    public void softDelete(Integer id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+        if (usuario.isPresent()) {
+            Usuario user = usuario.get();
+            user.setActive(false);
+            usuarioRepository.save(user);
+        } else {
+            throw new EntityNotFoundException("Producto no encontrado con id: " + id);
+        }
     }
 }

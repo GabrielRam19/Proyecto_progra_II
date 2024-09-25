@@ -29,4 +29,7 @@ public class Usuario {
 
     @Column(name = "Contraseña")
     private String contrasena;
+
+    @Column(name = "is_active")
+    private boolean active;
 }
