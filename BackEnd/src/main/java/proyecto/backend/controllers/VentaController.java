@@ -57,7 +57,7 @@ public class VentaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VentaResponseDto create(@RequestBody VentaRequestDto venta) throws ResponseStatusException {
+    public VentaResponseDto create(@RequestBody VentaRequestDto venta) throws Exception {
         return ventaService.saveVenta(venta);
     }
 

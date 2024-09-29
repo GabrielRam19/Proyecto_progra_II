@@ -69,7 +69,7 @@ public class FacturaService {
 
     public void despacharPedido(Pedido pedido) throws Exception {
         if(pedido.isDespachado()){
-            throw new Exception("Pedido ya despachado!");
+            throw new Exception("Pedido ya despachado, no se puede generar nueva factura!");
         }
         restarExistenciaPedido(pedido);
         pedido.setDespachado(true);

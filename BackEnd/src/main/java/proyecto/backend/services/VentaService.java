@@ -38,10 +38,14 @@ public class VentaService {
         return modelMapper.map(venta, VentaResponseDto.class);
     }
 
-    public VentaResponseDto saveVenta(VentaRequestDto ventaRequestDto){
+    public VentaResponseDto saveVenta(VentaRequestDto ventaRequestDto) throws Exception {
         Venta venta = modelMapper.map(ventaRequestDto, Venta.class);
         // Verificar que el producto esté correctamente cargado
         Producto producto = getProducto(venta);
+        Pedido pedido = getPedido(venta);
+        if(pedido.isDespachado()){
+            throw new Exception("Pedido ya despachado, no se puede añadir ventas!");
+        }
 
         // Validar existencia del producto
         if (validateStock(producto, venta.getCantidad())) {
@@ -57,6 +61,10 @@ public class VentaService {
         modelMapper.map(ventaRequestDto, Venta.class);
         assert venta != null;
         Producto producto = getProducto(venta);
+        Pedido pedido = getPedido(venta);
+        if(pedido.isDespachado()){
+            throw new Exception("Pedido ya despachado, no se puede añadir ventas!");
+        }
         // Validar existencia del producto
         if (validateStock(producto, venta.getCantidad())) {
             throw new Exception("No hay suficiente existencia del producto: "+producto.getNombreProducto());
@@ -73,6 +81,11 @@ public class VentaService {
     private Producto getProducto(Venta venta) {
         return productoRepository.findById(venta.getIdProducto().getIdProducto())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+    }
+
+    private Pedido getPedido(Venta venta) {
+        return pedidoRepository.findById(venta.getIdPedido().getIdPedido())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado"));
     }
 
     public void updateTotal(Venta venta, Producto producto){
