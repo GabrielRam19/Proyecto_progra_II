@@ -19,8 +19,8 @@ public class Venta {
     private int idVenta;
 
     @ManyToOne
-    @JoinColumn(name = "Id_factura")
-    private Factura idFactura;
+    @JoinColumn(name = "Id_pedido")
+    private Pedido idPedido;
 
     @ManyToOne
     @JoinColumn(name = "Id_producto")

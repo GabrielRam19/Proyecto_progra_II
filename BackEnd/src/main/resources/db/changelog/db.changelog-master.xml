@@ -43,16 +43,13 @@
             <column name="updated_at" type="DATETIME2">
                 <constraints nullable="false"/>
             </column>
-            <column name="Total" type="DECIMAL(10,2)">
-                <constraints nullable="false"/>
-            </column>
             <column name="Id_usuario" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="Id_forma_pago" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="Id_cliente" type="int">
+            <column name="Id_pedido" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -100,7 +97,7 @@
             <column name="Id_venta" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Id_factura" type="int">
+            <column name="Id_pedido" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="Id_producto" type="int">
@@ -132,48 +129,90 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <createTable tableName="Pedido">
+            <column name="Id_pedido" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Id_cliente" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Id_usuario" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Fecha_pedido" type="DATETIME2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Total" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Despachado" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
 
         <addForeignKeyConstraint
                 baseTableName="Orden_compra"
                 baseColumnNames="Id_proveedor"
                 constraintName="fk_compra_proveedor"
                 referencedTableName="Proveedor"
-                referencedColumnNames="Id_proveedor"/>
+                referencedColumnNames="Id_proveedor"
+                onDelete="CASCADE"/>
+
         <addForeignKeyConstraint
                 baseTableName="Orden_compra"
                 baseColumnNames="Id_producto"
                 constraintName="fk_compra_producto"
                 referencedTableName="Producto"
-                referencedColumnNames="Id_producto"/>
+                referencedColumnNames="Id_producto"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableName="Venta"
+                baseColumnNames="Id_pedido"
+                constraintName="fk_venta_pedido"
+                referencedTableName="Pedido"
+                referencedColumnNames="Id_pedido"
+                onDelete="CASCADE"/>
+
         <addForeignKeyConstraint
                 baseTableName="Venta"
                 baseColumnNames="Id_producto"
                 constraintName="fk_venta_producto"
                 referencedTableName="Producto"
-                referencedColumnNames="Id_producto"/>
-        <addForeignKeyConstraint
-                baseTableName="Venta"
-                baseColumnNames="Id_factura"
-                constraintName="fk_venta_factura"
-                referencedTableName="Factura"
-                referencedColumnNames="Id_factura"/>
+                referencedColumnNames="Id_producto"
+                onDelete="CASCADE"/>
+
         <addForeignKeyConstraint
                 baseTableName="Factura"
                 baseColumnNames="Id_forma_pago"
                 constraintName="fk_factura_pago"
                 referencedTableName="FormaPago"
-                referencedColumnNames="Id_forma_pago"/>
+                referencedColumnNames="Id_forma_pago"
+                onDelete="CASCADE"/>
+
         <addForeignKeyConstraint
                 baseTableName="Factura"
-                baseColumnNames="Id_usuario"
-                constraintName="fk_factura_usuario"
-                referencedTableName="Usuario"
-                referencedColumnNames="Id_usuario"/>
+                baseColumnNames="Id_pedido"
+                constraintName="fk_factura_pedido"
+                referencedTableName="Pedido"
+                referencedColumnNames="Id_pedido"
+                onDelete="CASCADE"/>
+
         <addForeignKeyConstraint
-                baseTableName="Factura"
+                baseTableName="Pedido"
                 baseColumnNames="Id_cliente"
-                constraintName="fk_factura_cliente"
+                constraintName="fk_pedido_cliente"
                 referencedTableName="Cliente"
-                referencedColumnNames="Id_cliente"/>
+                referencedColumnNames="Id_cliente"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableName="Pedido"
+                baseColumnNames="Id_usuario"
+                constraintName="fk_pedido_usuario"
+                referencedTableName="Usuario"
+                referencedColumnNames="Id_usuario"
+                onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>

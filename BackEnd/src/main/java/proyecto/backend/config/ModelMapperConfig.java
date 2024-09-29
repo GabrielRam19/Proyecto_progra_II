@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import proyecto.backend.dtos.*;
 import proyecto.backend.models.Factura;
 import proyecto.backend.models.OrdenCompra;
+import proyecto.backend.models.Pedido;
 import proyecto.backend.models.Venta;
 
 @Configuration
@@ -33,13 +34,19 @@ public class ModelMapperConfig {
             }
         });
 
+        modelMapper.addMappings(new PropertyMap<PedidoRequestDto, Pedido>() {
+            @Override
+            protected void configure() {
+                skip(destination.getIdPedido());
+            }
+        });
+
         // Definimos el mapeo específico para evitar conflictos
         modelMapper.addMappings(new PropertyMap<Factura, FacturaResponseDto>() {
             @Override
             protected void configure() {
                 // Mapea idFormaPago a la propiedad correspondiente en FacturaResponseDto
                 map(source.getIdFormaPago().getIdFormaPago(), destination.getIdFormaPago());
-                map(source.getIdCliente().getIdCliente(), destination.getIdCliente());
                 map(source.getIdUsuario().getIdUsuario(), destination.getIdUsuario());
             }
         });

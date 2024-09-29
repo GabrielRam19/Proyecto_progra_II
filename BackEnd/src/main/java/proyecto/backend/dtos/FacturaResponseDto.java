@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import proyecto.backend.models.Pedido;
+
 import java.time.LocalDateTime;
 
 
@@ -14,13 +16,11 @@ import java.time.LocalDateTime;
 public class FacturaResponseDto {
     private int idFactura;
 
-    private double total;
-
     private Integer idUsuario;
 
     private Integer idFormaPago;
 
-    private Integer idCliente;
+    private PedidoResponseDto pedido;
 
     private LocalDateTime createdAt;
 

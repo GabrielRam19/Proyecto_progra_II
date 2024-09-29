@@ -30,9 +30,6 @@ public class Factura {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "Total")
-    private double total;
-
     @ManyToOne
     @JoinColumn(name = "Id_usuario")
     private Usuario idUsuario;
@@ -41,7 +38,7 @@ public class Factura {
     @JoinColumn(name = "Id_forma_pago")
     private FormaPago idFormaPago;
 
-    @ManyToOne
-    @JoinColumn(name = "Id_cliente")
-    private Cliente idCliente;
+    @OneToOne
+    @JoinColumn(name = "Id_pedido")
+    private Pedido idPedido;
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 public class VentaResponseDto {
     private int idVenta;
 
-    private Integer idFactura;
+    private Integer idPedido;
 
     private Integer idProducto;
 

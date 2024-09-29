@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VentaRequestDto {
-    private Integer idFactura;
+    private Integer idPedido;
 
     private Integer idProducto;
 

@@ -28,13 +28,13 @@ public class FacturaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FacturaResponseDto create(@RequestBody FacturaRequestDto factura) {
+    public FacturaResponseDto create(@RequestBody FacturaRequestDto factura) throws Exception {
         return facturaService.saveFactura(factura);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public FacturaResponseDto update(@PathVariable Integer id, @RequestBody FacturaRequestDto factura) {
+    public FacturaResponseDto update(@PathVariable Integer id, @RequestBody FacturaRequestDto factura) throws Exception {
         return facturaService.updateFactura(id, factura);
     }
 
