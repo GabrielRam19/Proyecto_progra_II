@@ -33,6 +33,11 @@ public class VentaController {
         return ventaService.findById(id);
     }
 
+    @GetMapping("/pedido/{idPedido}")
+    public List<VentaResponseDto> getByPedidoId(@PathVariable Integer idPedido) {
+        return ventaService.findByPedidoId(idPedido);
+    }
+
     @GetMapping("/report/sales")
     public void generateSalesReport(@RequestParam("startDate") String startDateStr,
                                     @RequestParam("endDate") String endDateStr,

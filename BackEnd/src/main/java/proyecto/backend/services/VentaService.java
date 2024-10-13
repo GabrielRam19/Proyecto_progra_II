@@ -38,6 +38,11 @@ public class VentaService {
         return modelMapper.map(venta, VentaResponseDto.class);
     }
 
+    public List<VentaResponseDto> findByPedidoId(Integer idPedido){
+        List<Venta> ventas = ventaRepository.findByIdPedidoIdPedido(idPedido);
+        return ventas.stream().map(venta->modelMapper.map(venta, VentaResponseDto.class)).toList();
+    }
+
     public VentaResponseDto saveVenta(VentaRequestDto ventaRequestDto) throws Exception {
         Venta venta = modelMapper.map(ventaRequestDto, Venta.class);
         // Verificar que el producto esté correctamente cargado
