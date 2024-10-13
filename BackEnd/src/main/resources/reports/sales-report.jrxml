@@ -46,7 +46,7 @@
                 <imageExpression><![CDATA[$P{logo}]]></imageExpression>
             </image>
             <textField>
-                <reportElement positionType="Float" x="100" y="10" width="309" height="30" isPrintInFirstWholeBand="true" forecolor="#F21916" uuid="59758406-93be-430b-a012-d1a6a8db261e"/>
+                <reportElement positionType="Float" x="100" y="10" width="309" height="30" isPrintInFirstWholeBand="true" forecolor="#000080" uuid="59758406-93be-430b-a012-d1a6a8db261e"/>
                 <box>
                     <pen lineWidth="1.0"/>
                 </box>

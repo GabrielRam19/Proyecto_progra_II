@@ -37,8 +37,8 @@ public class VentaReportService {
         // Preparar parámetros
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("reportPeriod", reportPeriod);
-        InputStream logoStream = new FileInputStream(ResourceUtils.getFile("classpath:images/ferreteria.jpg").getAbsolutePath());
-        parameters.put("companyName", "Construye Facil S.A");
+        InputStream logoStream = new FileInputStream(ResourceUtils.getFile("classpath:images/ferreteria2.jpg").getAbsolutePath());
+        parameters.put("companyName", "Ferreteria");
         parameters.put("header", "Reporte de Ventas");
         parameters.put("logo", logoStream);
         // Generar el reporte
