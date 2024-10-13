@@ -67,6 +67,7 @@ public class VentaService {
         assert venta != null;
         Producto producto = getProducto(venta);
         Pedido pedido = getPedido(venta);
+        venta.setCantidad(ventaRequestDto.getCantidad());
         if(pedido.isDespachado()){
             throw new Exception("Pedido ya despachado, no se puede añadir ventas!");
         }
