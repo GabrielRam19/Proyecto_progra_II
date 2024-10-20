@@ -1,5 +1,6 @@
 package proyecto.backend.controllers;
 
+import jakarta.validation.Valid;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -54,13 +55,13 @@ public class ProductoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductoResponseDto create(@RequestBody ProductoRequestDto producto) {
+    public ProductoResponseDto create(@Valid @RequestBody ProductoRequestDto producto) {
         return productoService.saveProducto(producto);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductoResponseDto update(@PathVariable Integer id, @RequestBody ProductoRequestDto producto) {
+    public ProductoResponseDto update(@PathVariable Integer id,@Valid @RequestBody ProductoRequestDto producto) {
         return productoService.updateProducto(id, producto);
     }
 

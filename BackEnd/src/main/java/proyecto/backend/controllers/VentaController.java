@@ -1,9 +1,9 @@
 package proyecto.backend.controllers;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import proyecto.backend.dtos.VentaRequestDto;
 import proyecto.backend.dtos.VentaResponseDto;
 import proyecto.backend.services.VentaReportService;
@@ -55,20 +55,19 @@ public class VentaController {
             response.getOutputStream().write(pdfContent);
             response.getOutputStream().flush();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error generating report");
         }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VentaResponseDto create(@RequestBody VentaRequestDto venta) throws Exception {
+    public VentaResponseDto create(@Valid @RequestBody VentaRequestDto venta) throws Exception {
         return ventaService.saveVenta(venta);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public VentaResponseDto update(@PathVariable Integer id, @RequestBody VentaRequestDto venta) throws Exception {
+    public VentaResponseDto update(@PathVariable Integer id,@Valid @RequestBody VentaRequestDto venta) throws Exception {
         return ventaService.updateVenta(id, venta);
     }
 

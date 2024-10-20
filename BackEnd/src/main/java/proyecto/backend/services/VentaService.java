@@ -14,6 +14,7 @@ import proyecto.backend.repositories.ProductoRepository;
 import proyecto.backend.repositories.VentaRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class VentaService {
@@ -45,42 +46,61 @@ public class VentaService {
 
     public VentaResponseDto saveVenta(VentaRequestDto ventaRequestDto) throws Exception {
         Venta venta = modelMapper.map(ventaRequestDto, Venta.class);
-        // Verificar que el producto esté correctamente cargado
+
         Producto producto = getProducto(venta);
         Pedido pedido = getPedido(venta);
-        if(pedido.isDespachado()){
+
+        if (pedido.isDespachado()) {
             throw new Exception("Pedido ya despachado, no se puede añadir ventas!");
         }
 
-        // Validar existencia del producto
         if (validateStock(producto, venta.getCantidad())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No hay suficiente existencia del producto");
         }
+
         Venta savedVenta = ventaRepository.save(venta);
+
         updateTotal(savedVenta, producto);
+
         return modelMapper.map(savedVenta, VentaResponseDto.class);
     }
 
     public VentaResponseDto updateVenta(Integer id, VentaRequestDto ventaRequestDto) throws Exception {
-        Venta venta = ventaRepository.findById(id).orElse(null);
-        modelMapper.map(ventaRequestDto, Venta.class);
-        assert venta != null;
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Venta no encontrada"));
+
         Producto producto = getProducto(venta);
         Pedido pedido = getPedido(venta);
+
+        double totalAnterior = venta.getCantidad() * producto.getPrecioUnitario();
+
+        modelMapper.map(ventaRequestDto, venta);
         venta.setCantidad(ventaRequestDto.getCantidad());
-        if(pedido.isDespachado()){
-            throw new Exception("Pedido ya despachado, no se puede añadir ventas!");
-        }
-        // Validar existencia del producto
+
         if (validateStock(producto, venta.getCantidad())) {
-            throw new Exception("No hay suficiente existencia del producto: "+producto.getNombreProducto());
+            throw new Exception("No hay suficiente existencia del producto: " + producto.getNombreProducto());
         }
+
         Venta savedVenta = ventaRepository.save(venta);
-        updateTotal(savedVenta, producto);
+
+        double totalNuevo = savedVenta.getCantidad() * producto.getPrecioUnitario();
+
+        pedido.setTotal(pedido.getTotal() - totalAnterior + totalNuevo);
+        pedidoRepository.save(pedido);
+
         return modelMapper.map(savedVenta, VentaResponseDto.class);
     }
 
-    public void deleteVenta(Integer id){
+    public void deleteVenta(Integer id) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Venta no encontrada"));
+
+        Producto producto = getProducto(venta);
+        Pedido pedido = getPedido(venta);
+        double totalVenta = venta.getCantidad() * producto.getPrecioUnitario();
+        pedido.setTotal(pedido.getTotal() - totalVenta);
+        pedidoRepository.save(pedido);
+
         ventaRepository.deleteById(id);
     }
 
@@ -94,14 +114,13 @@ public class VentaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado"));
     }
 
-    public void updateTotal(Venta venta, Producto producto){
+    public void updateTotal(Venta venta, Producto producto) {
         Pedido pedido = pedidoRepository.findById(venta.getIdPedido().getIdPedido())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido no encontrado"));
 
-        // Verificar cantidad y precio unitario
         double totalVenta = venta.getCantidad() * producto.getPrecioUnitario();
         pedido.setTotal(pedido.getTotal() + totalVenta);
-        this.pedidoRepository.save(pedido);
+        pedidoRepository.save(pedido);
     }
 
     private boolean validateStock(Producto producto, int cantidadSolicitada) {

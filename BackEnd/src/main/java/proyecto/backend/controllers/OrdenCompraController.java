@@ -1,5 +1,6 @@
 package proyecto.backend.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import proyecto.backend.dtos.OrdenCompraRequestDto;
@@ -28,13 +29,13 @@ public class OrdenCompraController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrdenCompraResponseDto create(@RequestBody OrdenCompraRequestDto ordenCompra) {
+    public OrdenCompraResponseDto create(@Valid @RequestBody OrdenCompraRequestDto ordenCompra) {
         return ordenCompraService.saveOrdenCompra(ordenCompra);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrdenCompraResponseDto update(@PathVariable Integer id, @RequestBody OrdenCompraRequestDto ordenCompra) {
+    public OrdenCompraResponseDto update(@PathVariable Integer id,@Valid @RequestBody OrdenCompraRequestDto ordenCompra) {
         return ordenCompraService.updateOrdenCompra(id, ordenCompra);
     }
 
