@@ -1,0 +1,243 @@
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="factura"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20">
+
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+
+    <!-- Parámetros necesarios -->
+    <parameter name="companyName" class="java.lang.String"/>
+    <parameter name="address" class="java.lang.String"/>
+    <parameter name="logo" class="java.io.InputStream"/>
+    <parameter name="facturaFecha" class="java.lang.String"/>
+    <parameter name="cliente" class="java.lang.String"/>
+    <parameter name="usuario" class="java.lang.String"/>
+    <parameter name="facturaNumero" class="java.lang.String"/>
+    <parameter name="formaPago" class="java.lang.String"/> <!-- Parámetro de forma de pago -->
+
+    <!-- Campos de detalles de productos -->
+    <field name="nombreProducto" class="java.lang.String"/>
+    <field name="cantidad" class="java.lang.Integer"/>
+    <field name="precioUnitario" class="java.lang.Double"/>
+    <field name="total" class="java.lang.Double"/>
+
+    <!-- Variable para sumar el total -->
+    <variable name="totalFactura" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{total}]]></variableExpression>
+    </variable>
+
+    <!-- Fondo del documento -->
+    <background>
+        <band height="20" splitType="Stretch"/>
+    </background>
+
+    <!-- Título / Encabezado -->
+    <title>
+        <band height="120" splitType="Stretch">
+            <!-- Logo -->
+            <image isLazy="true">
+                <reportElement x="10" y="0" width="80" height="60"/>
+                <imageExpression><![CDATA[$P{logo}]]></imageExpression>
+            </image>
+            <!-- Nombre de la empresa -->
+            <textField>
+                <reportElement x="100" y="0" width="400" height="30" isPrintInFirstWholeBand="true" forecolor="#000080"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="19" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+            </textField>
+            <!-- Dirección de la empresa -->
+            <textField>
+                <reportElement x="100" y="40" width="400" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+            </textField>
+            <!-- Fecha de la factura -->
+            <textField>
+                <reportElement x="400" y="80" width="150" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Fecha: " + $P{facturaFecha}]]></textFieldExpression>
+            </textField>
+            <!-- Número de factura -->
+            <textField>
+                <reportElement x="400" y="100" width="150" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["N° Factura: " + $P{facturaNumero}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <!-- Información del cliente y usuario -->
+    <pageHeader>
+        <band height="70">
+            <!-- Cliente -->
+            <textField>
+                <reportElement x="0" y="10" width="300" height="20"/> <!-- Ajustado el ancho y la posición -->
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Cliente: " + $P{cliente}]]></textFieldExpression>
+            </textField>
+            <!-- Usuario de caja -->
+            <textField>
+                <reportElement x="300" y="10" width="255" height="20"/> <!-- Ajustado el ancho para alinear -->
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Cajero: " + $P{usuario}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <!-- Cabecera de la columna de productos -->
+    <columnHeader>
+        <band height="20" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="300" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Descripción del Producto]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="0" width="60" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cantidad]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="0" width="100" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio Unitario]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="460" y="0" width="95" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- Detalle de productos -->
+    <detail>
+        <band height="20" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="300" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombreProducto}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="60" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="360" y="0" width="100" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precioUnitario}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="460" y="0" width="95" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <!-- Resumen y total -->
+    <summary>
+        <band height="60">
+            <!-- Total de la factura -->
+            <textField>
+                <reportElement x="460" y="10" width="95" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Total: " + $V{totalFactura}]]></textFieldExpression>
+            </textField>
+            <!-- Forma de Pago -->
+            <textField>
+                <reportElement x="0" y="10" width="300" height="20"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Forma de Pago: " + $P{formaPago}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

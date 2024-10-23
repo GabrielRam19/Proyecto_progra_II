@@ -3,6 +3,7 @@ package proyecto.backend.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import proyecto.backend.dtos.VentaReporteDto;
+import proyecto.backend.dtos.VentasFacturaDto;
 import proyecto.backend.models.Venta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -20,4 +21,10 @@ public interface VentaRepository extends JpaRepository<Venta, Integer> {
     List<VentaReporteDto> findVentasBetweenDates(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     List<Venta> findByIdPedidoIdPedido(Integer idPedido);
+
+    @Query("SELECT new proyecto.backend.dtos.VentasFacturaDto(p.nombreProducto, v.cantidad, p.precioUnitario) " +
+            "FROM Venta v " +
+            "JOIN v.idProducto p " +
+            "WHERE v.idPedido.idPedido = :idPedido")
+    List<VentasFacturaDto> findSalesDataForReport(@Param("idPedido") Integer idPedido);
 }
